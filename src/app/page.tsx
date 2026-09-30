@@ -7,7 +7,7 @@ export default function Home() {
       <h1 className="text-2xl mb-5">Welcome!</h1>
       <Link
         className="p-4 border-1 rounded-2xl hover:border-white/50"
-        href={`${process.env.BACKEND_URL}auth/google/url`}
+        href={`${process.env.BACKEND_URL}/auth/google/url`}
       >
         Sign In with Google
       </Link>
