@@ -7,6 +7,7 @@ export default async function GoogleAuthPage({
   const code = params.code;
   const scope = params.scope;
   const iss = params.iss;
+  const state = params.state;
 
   let userData: null | {
     userName: string;
@@ -15,7 +16,7 @@ export default async function GoogleAuthPage({
     files: string[];
   } = null;
 
-  if (code) {
+  if (code && state) {
     try {
       const response = await fetch(
         `${process.env.BACKEND_URL}/auth/google/callback`,
@@ -23,6 +24,7 @@ export default async function GoogleAuthPage({
           method: "POST",
           body: JSON.stringify({
             code: code,
+            state: state,
           }),
           headers: {
             "Content-Type": "application/json",
