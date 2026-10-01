@@ -8,8 +8,12 @@ export default async function GoogleAuthPage({
   const scope = params.scope;
   const iss = params.iss;
 
-  let userData: null | { userName: string; email: string; profilePic: string } =
-    null;
+  let userData: null | {
+    userName: string;
+    email: string;
+    profilePic: string;
+    files: string[];
+  } = null;
 
   if (code) {
     try {
@@ -31,6 +35,7 @@ export default async function GoogleAuthPage({
         userName: result.user.given_name,
         email: result.user.email,
         profilePic: result.user.picture,
+        files: result.files,
       };
     } catch {
       console.log("some error catched on frontend");
@@ -40,9 +45,9 @@ export default async function GoogleAuthPage({
   }
 
   return (
-    <div className="flex justify-center items-center h-[100vh]">
+    <div className="flex justify-center items-center p-4">
       {userData ? (
-        <div className="flex flex-col justify-center items-center text-2xl gap-4">
+        <div className="flex flex-col justify-center items-center text-2xl gap-4 mt-8">
           <img
             src={`${userData.profilePic}`}
             alt="user profile picture"
@@ -52,6 +57,17 @@ export default async function GoogleAuthPage({
           <div className="flex flex-col justify-center items-center">
             <b>{userData.userName}</b>
             <p className="text-lg">{userData.email}</p>
+          </div>
+          <div className="flex flex-col items-center">
+            <b className="text-2xl">Google drive files:</b>
+            <div className="flex flex-col items-center max-h-100 overflow-scroll">
+              {userData.files.map((file, idx) => (
+                <h1 className="text-sm my-2 italic" key={idx}>
+                  {file}
+                </h1>
+              ))}
+            </div>
+            <i className="text-sm opacity-50">scroll down</i>
           </div>
         </div>
       ) : (
